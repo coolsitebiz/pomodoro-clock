@@ -1,4 +1,8 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
+
 
 class Counter extends React.Component {
     constructor() {
@@ -7,8 +11,8 @@ class Counter extends React.Component {
             count: 10,
             running: false,
             mode: "Session",
-            normalLength: 120,
-            shortLength: 60
+            sessionLength: 120,
+            breakLength: 60
         }
         this.myVar = null;
     }
@@ -20,9 +24,9 @@ class Counter extends React.Component {
             });
         } else {
             if (this.state.mode === "Session") {
-                this.setState({count: this.state.shortLength, mode: "Break"});
+                this.setState({count: this.state.breakLength, mode: "Break"});
             } else if (this.state.mode === "Break") {
-                this.setState({count: this.state.normalLength, mode: "Session"});
+                this.setState({count: this.state.sessionLength, mode: "Session"});
             }
         }
     }
@@ -44,7 +48,7 @@ class Counter extends React.Component {
 
     resetTimer = () => {
         this.setState({
-            count: this.state.normalLength,
+            count: this.state.sessionLength,
             mode: "Session",
             running: false
         })
@@ -53,15 +57,16 @@ class Counter extends React.Component {
 
 
 
+
     render() {
         return(
             <div className="container">
                 <div>Break Length</div>
-                <div>{this.state.mode}</div>
+                <div className="modeLabel">{this.state.mode}</div>
                 <div>Session Length</div>
-                <div>{Math.floor(this.state.shortLength / 60)}</div>
+                <div><ArrowButton direction={"up"} type={"session"}/> {Math.floor(this.state.breakLength / 60)} <ArrowButton direction={"down"} type={"session"}/></div>
                 <div></div>
-                <div>{Math.floor(this.state.normalLength / 60)}</div>
+                <div><ArrowButton direction={"up"} type={"break"}/> {Math.floor(this.state.sessionLength / 60)} <ArrowButton direction={"down"} type={"break"}/></div>
                 <div className="clockButton"  onClick={this.toggleTimer}>Start/Stop</div>
                 <div className="clockDisplay">
                     {Math.floor(this.state.count / 60) < 10 ? "0" + Math.floor(this.state.count / 60) : Math.floor(this.state.count / 60)}
@@ -72,6 +77,14 @@ class Counter extends React.Component {
             </div>
         )
     }
+}
+
+function ArrowButton(props) {
+    return(
+        <button>
+            <FontAwesomeIcon icon={props.direction === "up" ? faArrowUp : faArrowDown} />
+        </button>
+    )
 }
 
 
