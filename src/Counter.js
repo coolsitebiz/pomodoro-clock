@@ -15,6 +15,7 @@ class Counter extends React.Component {
             breakLength: 60
         }
         this.myVar = null;
+
     }
 
     handleCounter = () => {
@@ -48,15 +49,30 @@ class Counter extends React.Component {
 
     resetTimer = () => {
         this.setState({
-            count: this.state.sessionLength,
             mode: "Session",
-            running: false
+            running: false,
+            sessionLength: 1500,
+            breakLength: 300,
+            count: 1500
         })
         clearInterval(this.myVar);
     }
 
-
-
+    changeTime = (mode, direction) => {
+        if (mode === "break") {
+            if (direction === "up") {
+                this.setState({breakLength: this.state.breakLength < 3600 ? this.state.breakLength + 60 : this.state.breakLength});
+            } else {
+                this.setState({breakLength: this.state.breakLength > 60 ? this.state.breakLength - 60 : this.state.breakLength});
+            }
+        } else {
+            if (direction === "up") {
+                this.setState({sessionLength: this.state.sessionLength < 3600 ? this.state.sessionLength + 60 : this.state.sessionLength});
+            } else {
+                this.setState({sessionLength: this.state.sessionLength > 60 ? this.state.sessionLength - 60 : this.state.sessionLength});
+            }
+        }
+    }
 
     render() {
         return(
@@ -64,15 +80,11 @@ class Counter extends React.Component {
                 <div>Break Length</div>
                 <div className="modeLabel">{this.state.mode}</div>
                 <div>Session Length</div>
-                <div><ArrowButton direction={"up"} type={"session"}/> {Math.floor(this.state.breakLength / 60)} <ArrowButton direction={"down"} type={"session"}/></div>
+                <div><ArrowButton direction={"up"} mode={"break"} clicked={this.changeTime}/> {Math.floor(this.state.breakLength / 60)} <ArrowButton direction={"down"} mode={"break"} clicked={this.changeTime}/></div>
                 <div></div>
-                <div><ArrowButton direction={"up"} type={"break"}/> {Math.floor(this.state.sessionLength / 60)} <ArrowButton direction={"down"} type={"break"}/></div>
+                <div><ArrowButton direction={"up"} mode={"session"} clicked={this.changeTime}/> {Math.floor(this.state.sessionLength / 60)} <ArrowButton direction={"down"} mode={"session"} clicked={this.changeTime}/></div>
                 <div className="clockButton"  onClick={this.toggleTimer}>Start/Stop</div>
-                <div className="clockDisplay">
-                    {Math.floor(this.state.count / 60) < 10 ? "0" + Math.floor(this.state.count / 60) : Math.floor(this.state.count / 60)}
-                    :
-                    {this.state.count % 60 < 10 ? "0" + this.state.count % 60 : this.state.count % 60}
-                </div>
+                <ClockDisplay time={this.state.count}/>
                 <div className="clockButton" onClick={this.resetTimer}>Reset</div>
             </div>
         )
@@ -81,11 +93,20 @@ class Counter extends React.Component {
 
 function ArrowButton(props) {
     return(
-        <button>
+        <button onClick={() => props.clicked(props.mode, props.direction)}>
             <FontAwesomeIcon icon={props.direction === "up" ? faArrowUp : faArrowDown} />
         </button>
     )
 }
 
+function ClockDisplay(props) {
+    return(
+        <div className="clockDisplay">
+            {Math.floor(props.time / 60) < 10 ? "0" + Math.floor(props.time / 60) : Math.floor(props.time / 60)}
+            :
+            {props.time % 60 < 10 ? "0" + props.time % 60 : props.time % 60}
+        </div>
+    )
+}
 
 export default Counter
