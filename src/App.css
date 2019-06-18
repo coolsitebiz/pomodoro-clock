@@ -1,0 +1,46 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 10px;
+    width: 400px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 40vh;
+    background: #ccc;
+    border-radius: 5px;
+    text-align: center;
+
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */  
+}
+
+.clockDisplay {
+    padding:10px;
+    font-size: 2em;
+}
+
+.clockButton {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #555;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    margin: 10px;
+    border: 1px solid black;
+
+}
+
+.clockButton:active {
+    background: #888;
+    border: 1px solid white;
+}
