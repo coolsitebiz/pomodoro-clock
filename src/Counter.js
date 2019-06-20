@@ -8,11 +8,11 @@ class Counter extends React.Component {
     constructor() {
         super();
         this.state = {
-            count: 10,
+            count: 1500,
             running: false,
             mode: "Session",
-            sessionLength: 10,
-            breakLength: 10
+            sessionLength: 1500,
+            breakLength: 300
         }
         this.myVar = null;
 
@@ -23,7 +23,7 @@ class Counter extends React.Component {
             this.setState({
                 count: this.state.count - 1
             });
-        } else {
+        } else if (this.state.count === 0) {
             if (this.state.mode === "Session") {
                 this.setState({count: this.state.breakLength, mode: "Break"});
             } else if (this.state.mode === "Break") {
@@ -58,21 +58,36 @@ class Counter extends React.Component {
         clearInterval(this.myVar);
     }
 
+    // this needs fixing for adjusting break session length and updating count
     changeTime = (mode, direction) => {
-        if (mode === "break") {
-            if (direction === "up") {
-                this.setState({breakLength: this.state.breakLength < 3600 ? this.state.breakLength + 60 : this.state.breakLength});
+        if(this.state.running === false){
+            if (mode === "break") {
+                if (direction === "up") {
+                    this.setState({
+                        breakLength: this.state.breakLength <= 3540 ? this.state.breakLength + 60 : this.state.breakLength
+                    });
+                } else {
+                    this.setState({
+                        breakLength: this.state.breakLength > 60 ? this.state.breakLength - 60 : this.state.breakLength
+                    });
+                }
             } else {
-                this.setState({breakLength: this.state.breakLength > 60 ? this.state.breakLength - 60 : this.state.breakLength});
+                if (direction === "up") {
+                    this.setState({
+                        sessionLength: this.state.sessionLength <= 3540 ? this.state.sessionLength + 60 : this.state.sessionLength,
+                        count: this.state.count <= 3540 ? this.state.sessionLength + 60 : this.state.sessionLength
+                    });
+                } else {
+                    this.setState({
+                        sessionLength: this.state.sessionLength > 60 ? this.state.sessionLength - 60 : this.state.sessionLength,
+                        count: this.state.count >= 120 ? this.state.sessionLength - 60 : this.state.sessionLength
+                    });
+                }
             }
-        } else {
-            if (direction === "up") {
-                this.setState({sessionLength: this.state.sessionLength < 3600 ? this.state.sessionLength + 60 : this.state.sessionLength});
-            } else {
-                this.setState({sessionLength: this.state.sessionLength > 60 ? this.state.sessionLength - 60 : this.state.sessionLength});
-            }
+            
         }
     }
+
 
     render() {
         return(
