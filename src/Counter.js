@@ -107,12 +107,16 @@ class Counter extends React.Component {
     render() {
         return(
             <div className="container">
-                <div id="break-label">Break Length</div>
-                <div id="timer-label" className="modeLabel">{this.state.mode}</div>
-                <div id="session-label">Session Length</div>
-                <div><ArrowButton id="break-increment" direction={"up"} mode={"break"} clicked={this.changeTime}/> <span id="break-length">{Math.floor(this.state.breakLength / 60)}</span> <ArrowButton id="break-decrement" direction={"down"} mode={"break"} clicked={this.changeTime}/></div>
+                <div></div><div id="timer-label" className="modeLabel">{this.state.mode}</div><div></div>
+                <div>
+                    <div id="break-label">Break Length</div>
+                    <div><ArrowButton id="break-increment" direction={"up"} mode={"break"} clicked={this.changeTime}/> <span id="break-length">{Math.floor(this.state.breakLength / 60)}</span> <ArrowButton id="break-decrement" direction={"down"} mode={"break"} clicked={this.changeTime}/></div>
+                </div>
                 <div></div>
-                <div><ArrowButton id="session-increment" direction={"up"} mode={"session"} clicked={this.changeTime}/> <span id="session-length">{Math.floor(this.state.sessionLength / 60)}</span> <ArrowButton id="session-decrement" direction={"down"} mode={"session"} clicked={this.changeTime}/></div>
+                <div>
+                    <div id="session-label">Session Length</div>
+                    <div><ArrowButton id="session-increment" direction={"up"} mode={"session"} clicked={this.changeTime}/> <span id="session-length">{Math.floor(this.state.sessionLength / 60)}</span> <ArrowButton id="session-decrement" direction={"down"} mode={"session"} clicked={this.changeTime}/></div>
+                </div>
                 <div id="start_stop" className="clockButton" onClick={this.toggleTimer}>Start/Stop</div>
                 <ClockDisplay time={this.state.count}/>
                 <div id="reset" className="clockButton" onClick={this.resetTimer}>Reset</div>
