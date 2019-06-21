@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
+import beep from './media/BEEP.mp3';
 
 
 class Counter extends React.Component {
@@ -24,6 +25,7 @@ class Counter extends React.Component {
                 count: this.state.count - 1
             });
         } else if (this.state.count === 0) {
+            this.playBeep();
             if (this.state.mode === "Session") {
                 this.setState({count: this.state.breakLength, mode: "Break"});
             } else if (this.state.mode === "Break") {
@@ -48,6 +50,7 @@ class Counter extends React.Component {
     }
 
     resetTimer = () => {
+        this.playBeep();
         this.setState({
             mode: "Session",
             running: false,
@@ -87,6 +90,11 @@ class Counter extends React.Component {
             
         }
     }
+
+    playBeep = () => {
+        let beepSound = new Audio(beep);
+        beepSound.play();
+    } 
 
 
     render() {
