@@ -61,7 +61,6 @@ class Counter extends React.Component {
         clearInterval(this.myVar);
     }
 
-    // this needs fixing for adjusting break session length and updating count
     changeTime = (mode, direction) => {
         if(this.state.running === false){
             if (mode === "break") {
