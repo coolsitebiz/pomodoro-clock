@@ -16,7 +16,7 @@ class Counter extends React.Component {
             breakLength: 300
         }
         this.myVar = null;
-
+       
     }
 
     handleCounter = () => {
@@ -50,7 +50,7 @@ class Counter extends React.Component {
     }
 
     resetTimer = () => {
-        this.playBeep();
+        this.resetBeep();
         this.setState({
             mode: "Session",
             running: false,
@@ -92,9 +92,15 @@ class Counter extends React.Component {
     }
 
     playBeep = () => {
-        let beepSound = new Audio(beep);
-        beepSound.play();
+        var beepsound = document.getElementById('beep');
+        beepsound.play();
     } 
+
+    resetBeep = () => {
+        var beepsound = document.getElementById('beep');
+        beepsound.pause();
+        beepsound.currentTime = 0;
+    }
 
 
     render() {
@@ -109,6 +115,7 @@ class Counter extends React.Component {
                 <div id="start_stop" className="clockButton" onClick={this.toggleTimer}>Start/Stop</div>
                 <ClockDisplay time={this.state.count}/>
                 <div id="reset" className="clockButton" onClick={this.resetTimer}>Reset</div>
+                <Audio />
             </div>
         )
     }
@@ -129,6 +136,12 @@ function ClockDisplay(props) {
             :
             {props.time % 60 < 10 ? "0" + props.time % 60 : props.time % 60}
         </div>
+    )
+}
+
+function Audio() {
+    return (
+        <audio id="beep" src={beep} />
     )
 }
 
