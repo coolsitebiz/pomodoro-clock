@@ -67,23 +67,25 @@ class Counter extends React.Component {
             if (mode === "break") {
                 if (direction === "up") {
                     this.setState({
-                        breakLength: this.state.breakLength <= 3540 ? this.state.breakLength + 60 : this.state.breakLength
+                        breakLength: this.state.breakLength <= 3540 ? this.state.breakLength + 60 : this.state.breakLength,
+                        count: this.state.mode === "Break" ? (this.state.count <= 3540 ? this.state.breakLength + 60 : this.state.breakLength) : this.state.count
                     });
                 } else {
                     this.setState({
-                        breakLength: this.state.breakLength > 60 ? this.state.breakLength - 60 : this.state.breakLength
+                        breakLength: this.state.breakLength > 60 ? this.state.breakLength - 60 : this.state.breakLength,
+                        count: this.state.mode === "Break" ? (this.state.count >= 120 ? this.state.breakLength - 60 : this.state.breakLength) : this.state.count
                     });
                 }
             } else {
                 if (direction === "up") {
                     this.setState({
                         sessionLength: this.state.sessionLength <= 3540 ? this.state.sessionLength + 60 : this.state.sessionLength,
-                        count: this.state.count <= 3540 ? this.state.sessionLength + 60 : this.state.sessionLength
+                        count: this.state.mode === "Session" ? (this.state.count <= 3540 ? this.state.sessionLength + 60 : this.state.sessionLength) : this.state.count
                     });
                 } else {
                     this.setState({
                         sessionLength: this.state.sessionLength > 60 ? this.state.sessionLength - 60 : this.state.sessionLength,
-                        count: this.state.count >= 120 ? this.state.sessionLength - 60 : this.state.sessionLength
+                        count: this.state.mode === "Session" ? (this.state.count >= 120 ? this.state.sessionLength - 60 : this.state.sessionLength) : this.state.count
                     });
                 }
             }
